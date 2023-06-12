@@ -1,0 +1,137 @@
+﻿@page "/"
+@using BlazorConnectFour.Data;
+
+<h1>Connect Four!</h1>
+
+@code {
+    GameBoard board = new GameBoard();
+    PieceColor currentPlayer = PieceColor.Red;
+    PieceColor winner = PieceColor.Blank;
+
+    private void Restart()
+    {
+        board.Restart();
+        currentPlayer = PieceColor.Red;
+        winner = PieceColor.Blank;
+    }
+
+    private void PieceClicked(int x, int y)
+    {
+        GamePiece pieceClicked = board.Board[x, y];
+
+        if (pieceClicked.Color == PieceColor.Blank)
+        {
+            // set if at bottom or if next piece is a color
+            bool atBottom = y == board.Height - 1;
+            if (atBottom || board.Board[x, y + 1].Color != PieceColor.Blank)
+            {
+                pieceClicked.Color = currentPlayer;
+                CheckWinner(x, y);
+                if (winner == PieceColor.Blank)
+                    SwitchTurns();
+                return;
+            }
+
+            PieceClicked(x, y + 1);
+        }
+    }
+
+    private void SwitchTurns()
+    {
+        if (currentPlayer == PieceColor.Red) {
+            currentPlayer = PieceColor.Yellow;
+        }
+        else
+        {
+            currentPlayer = PieceColor.Red;
+        }
+    }
+
+    private void CheckWinner(int x, int y)
+    {
+        bool victory =
+            CheckWinner(x, y, 0, 1) ||
+            CheckWinner(x, y, 1, 0) ||
+            CheckWinner(x, y, 1, 1) ||
+            CheckWinner(x, y, 1, -1);
+
+        if (victory)
+        {
+            winner = currentPlayer;
+        }
+    }
+
+    private bool CheckWinner(int x, int y, int changeX, int changeY)
+    {
+        // including just placed token
+        int total = 1;
+        int curX = x + changeX;
+        int curY = y + changeY;
+
+        // calculate one side
+        while (
+            (curX >= 0 && curX < board.Width) &&
+            (curY >= 0 && curY < board.Height) &&
+            board.Board[curX,curY].Color == currentPlayer
+        )
+        {
+            total++;
+            curX += changeX;
+            curY += changeY;
+        }
+        Console.WriteLine(total);
+        // swap direction
+        changeX *= -1;
+        changeY *= -1;
+        curX = x + changeX;
+        curY = y + changeY;
+
+        // calc. other
+        while (
+            (curX >= 0 && curX < board.Width) &&
+            (curY >= 0 && curY < board.Height) &&
+            board.Board[curX, curY].Color == currentPlayer
+        )
+        {
+            total++;
+            curX += changeX;
+            curY += changeY;
+        }
+        Console.WriteLine(total);
+
+        return total >= 4;
+    }
+}
+
+@if  (winner == PieceColor.Blank)
+{
+    <h2>@currentPlayer's Turn!</h2>
+}
+else
+{
+    <h2>@winner is the Winner!</h2>
+}
+
+<div class="board">
+    @for (int i = 0; i < board.Width; i++)
+    {
+        <div class="column">
+            @for (int j = 0; j < board.Height; j++)
+            {
+                // needed for persistance
+                int x = i;
+                int y = j;
+                <div class="gamepiece @board.Board[i,j].Color.ToString().ToLower()"
+                @onclick="@(() => {
+                    if (winner == PieceColor.Blank) {
+                        PieceClicked(x,y);
+                    }
+                })"></div>
+            }
+        </div>
+    }
+</div>
+
+<button>
+
+</button>

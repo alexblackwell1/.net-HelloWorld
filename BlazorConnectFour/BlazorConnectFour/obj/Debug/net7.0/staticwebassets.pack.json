@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\agbwe\\OneDrive\\Documents\\Alex\\projects\\.net-Projects\\BlazorConnectFour\\BlazorConnectFour\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.BlazorConnectFour.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.BlazorConnectFour.props",
+      "PackagePath": "build\\BlazorConnectFour.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.BlazorConnectFour.props",
+      "PackagePath": "buildMultiTargeting\\BlazorConnectFour.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.BlazorConnectFour.props",
+      "PackagePath": "buildTransitive\\BlazorConnectFour.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
